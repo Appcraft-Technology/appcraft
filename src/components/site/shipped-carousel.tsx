@@ -176,9 +176,10 @@ function CategoryRow({
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
   const lastUserInteraction = useRef(0);
+  const isInitialized = useRef(false);
 
   // Repeat cards enough times to ensure seamless infinite scrolling
-  const repeatedCards = [...cards, ...cards, ...cards, ...cards];
+  const repeatedCards = [...cards, ...cards, ...cards, ...cards, ...cards, ...cards];
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -212,7 +213,11 @@ function CategoryRow({
     }
   };
 
-  const handleScroll = () => {
+  const handleWheel = () => {
+    lastUserInteraction.current = Date.now();
+  };
+
+  const handleTouchStart = () => {
     lastUserInteraction.current = Date.now();
   };
 
@@ -222,33 +227,50 @@ function CategoryRow({
     const track = trackRef.current;
     if (!container || !track) return;
 
-    // Calculate the width of one set of cards
-    const singleSetWidth = track.scrollWidth / 4;
+    // Wait for track to render and calculate dimensions
+    const initScroll = () => {
+      if (!isInitialized.current && track.scrollWidth > 0) {
+        const singleSetWidth = track.scrollWidth / 6; // We have 6 repeats
+        container.scrollLeft = singleSetWidth * 2; // Start at middle
+        isInitialized.current = true;
+      }
+    };
 
-    // Set initial scroll position to the middle set
-    container.scrollLeft = singleSetWidth;
+    // Initialize after a brief delay to ensure rendering
+    const initTimer = setTimeout(initScroll, 100);
 
     const autoScroll = () => {
-      if (!container || isDraggingRef.current) return;
+      if (!container || !track || isDraggingRef.current) {
+        animationRef.current = requestAnimationFrame(autoScroll);
+        return;
+      }
+
+      const singleSetWidth = track.scrollWidth / 6;
+      
+      // Only proceed if initialized
+      if (!isInitialized.current || singleSetWidth === 0) {
+        animationRef.current = requestAnimationFrame(autoScroll);
+        return;
+      }
 
       const timeSinceInteraction = Date.now() - lastUserInteraction.current;
-      const INTERACTION_COOLDOWN = 2000; // 2 seconds after user stops interacting
+      const INTERACTION_COOLDOWN = 1000; // 1 second after user stops interacting
 
-      // Only auto-scroll if user hasn't interacted recently
+      // Auto-scroll
       if (timeSinceInteraction > INTERACTION_COOLDOWN) {
-        const scrollSpeed = reverse ? -0.5 : 0.5;
+        const scrollSpeed = reverse ? -1 : 1;
         container.scrollLeft += scrollSpeed;
       }
 
-      // Check if we need to reset position for infinite loop
+      // Infinite loop logic - seamlessly jump when reaching boundaries
       const scrollPos = container.scrollLeft;
-      const maxScroll = singleSetWidth * 2; // Two sets forward
-      const minScroll = singleSetWidth * 0.5; // Half set back
+      const maxScroll = singleSetWidth * 4; // Jump before reaching end
+      const minScroll = singleSetWidth * 1; // Jump before reaching start
 
       if (scrollPos >= maxScroll) {
-        container.scrollLeft = singleSetWidth;
+        container.scrollLeft = scrollPos - singleSetWidth * 2;
       } else if (scrollPos <= minScroll) {
-        container.scrollLeft = singleSetWidth + (singleSetWidth - scrollPos);
+        container.scrollLeft = scrollPos + singleSetWidth * 2;
       }
 
       animationRef.current = requestAnimationFrame(autoScroll);
@@ -257,11 +279,12 @@ function CategoryRow({
     animationRef.current = requestAnimationFrame(autoScroll);
 
     return () => {
+      clearTimeout(initTimer);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [reverse]);
+  }, [reverse, cards]);
 
   return (
     <div>
@@ -278,7 +301,8 @@ function CategoryRow({
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        onScroll={handleScroll}
+        onWheel={handleWheel}
+        onTouchStart={handleTouchStart}
         className="relative mt-5 overflow-x-scroll overflow-y-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
       >
         <div 
