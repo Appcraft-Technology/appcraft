@@ -1,26 +1,289 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root block defines the actual color values using oklch. The app is light-only.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
 
 @theme inline {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-dim: var(--ink-dim);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-blue-bright: var(--accent-blue-bright);
+  --color-accent-emerald: var(--accent-emerald);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  color-scheme: light;
+  --radius: 0.75rem;
+
+  /* AppCraft palette (light) */
+  --background: oklch(0.995 0.002 250);
+  --surface: oklch(0.972 0.005 255);
+  --surface-2: oklch(0.955 0.008 255);
+  --foreground: oklch(0.21 0.03 264);
+  --ink: oklch(0.21 0.03 264);
+  --ink-muted: oklch(0.48 0.035 258);
+  --ink-dim: oklch(0.58 0.03 258);
+  --line: oklch(0.21 0.03 264 / 12%);
+  --line-strong: oklch(0.21 0.03 264 / 22%);
+  --accent-blue: oklch(0.488 0.217 264.4); /* #2563EB, 5.1:1 with white text */
+  --accent-blue-bright: oklch(0.445 0.209 264.1); /* #1D4ED8 */
+  --accent-emerald: oklch(0.6 0.14 162.5);
+
+  --card: oklch(1 0 0 / 80%);
+  --card-foreground: var(--ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  --primary: var(--accent-blue);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.94 0.01 258);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.94 0.01 258);
+  --muted-foreground: var(--ink-muted);
+  --accent: oklch(0.94 0.01 258);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.58 0.21 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: var(--line);
+  --input: oklch(0.21 0.03 264 / 16%);
+  --ring: var(--accent-blue);
+  --chart-1: oklch(0.55 0.2 259.8);
+  --chart-2: oklch(0.6 0.14 162.5);
+  --chart-3: oklch(0.72 0.17 70.08);
+  --chart-4: oklch(0.58 0.24 303.9);
+  --chart-5: oklch(0.6 0.22 16.439);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--accent-blue);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.94 0.01 258);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--accent-blue);
+
+  --shadow-glow: 0 18px 60px -22px color-mix(in oklab, var(--accent-blue) 35%, transparent);
+  --gradient-hero: radial-gradient(
+    120% 90% at 50% 0%,
+    oklch(0.93 0.035 258) 0%,
+    oklch(0.995 0.002 250) 60%
+  );
+  --gradient-cta: radial-gradient(
+    90% 120% at 50% 50%,
+    oklch(0.95 0.02 258) 0%,
+    oklch(0.995 0.002 250) 70%
+  );
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  :target {
+    scroll-margin-top: 6rem;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--accent-blue) 35%, transparent);
+  }
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  color: var(--accent-blue);
+}
+
+@media (min-width: 640px) {
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    white-space: nowrap;
+  }
+}
+
+@utility glass-card {
+  background: color-mix(in oklab, var(--surface) 78%, transparent);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--line);
+}
+
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 38s linear infinite;
+}
+
+@utility marquee-track-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 44s linear infinite reverse;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes soft-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+}
+
+@utility scroll-hint {
+  animation: soft-bounce 2.2s ease-in-out infinite;
+}
+
+/*
+ * Marquee row scroll fallback: when a row opts into `.marquee-row`, the
+ * animated track becomes a plain horizontally-scrollable flex container
+ * under prefers-reduced-motion, so content stays reachable without motion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-row {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .marquee-row .marquee-track,
+  .marquee-row .marquee-track-reverse {
+    animation: none;
+    width: max-content;
+  }
+}
+
+/* Decorative barcode-style texture for label/text-only cards. No new colors: opacity-scoped currentColor bars. */
+@utility barcode-texture {
+  background-image: repeating-linear-gradient(
+    90deg,
+    currentColor 0,
+    currentColor 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  opacity: 0.05;
 }
