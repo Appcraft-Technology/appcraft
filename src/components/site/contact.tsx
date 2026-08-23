@@ -314,15 +314,29 @@ export function Contact() {
               <MapPin className="mt-0.5 size-4 shrink-0 text-accent-blue" />
               New Delhi, India - serving USA, Europe &amp; APAC
             </p>
-            <a
-              href="https://www.linkedin.com/company/appcraft-technology"
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-label="AppCraft on LinkedIn"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-ink-muted transition-colors hover:border-line-strong hover:text-ink"
-            >
-              <Linkedin className="size-4" /> LinkedIn
-            </a>
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href="https://www.linkedin.com/company/appcraft-technology"
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="AppCraft on LinkedIn"
+                className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-ink-muted transition-colors hover:border-line-strong hover:text-ink"
+              >
+                <Linkedin className="size-4" /> LinkedIn
+              </a>
+              <a
+                href="https://x.com/appcraft_tweets"
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="AppCraft on X"
+                className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-ink-muted transition-colors hover:border-line-strong hover:text-ink"
+              >
+                <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                X
+              </a>
+            </div>
           </Reveal>
         </div>
       </div>

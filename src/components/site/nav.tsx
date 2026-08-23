@@ -98,6 +98,7 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuPanelRef = useRef<HTMLDivElement>(null);
   const active = useActiveSection(sectionIds);
   useSectionQueryDeepLink(sectionIds);
 
@@ -111,6 +112,9 @@ export function SiteNav() {
   useEffect(() => {
     if (!open) return;
     closeRef.current?.focus();
+    if (menuPanelRef.current) {
+      menuPanelRef.current.scrollTop = 0;
+    }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
@@ -127,96 +131,99 @@ export function SiteNav() {
   }, [open]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-b border-line bg-background/90 backdrop-blur-xl"
-          : "border-b border-transparent"
-      }`}
-    >
-      <nav className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 sm:px-8 lg:flex lg:justify-between">
-        <a
-          href="#top"
-          onClick={(e) => scrollToHash(e, "#top")}
-          aria-label="AppCraft Technology, back to top"
-          className="group -mx-2 -my-1 flex min-w-0 items-center rounded-full px-2 py-1 outline-none transition-all duration-300 hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        >
-          <span className="transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transform-none">
-            <LogoLockup />
-          </span>
-        </a>
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "border-b border-line bg-background/90 backdrop-blur-xl"
+            : "border-b border-transparent"
+        }`}
+      >
+        <nav className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 sm:px-8 lg:flex lg:justify-between">
+          <a
+            href="#top"
+            onClick={(e) => scrollToHash(e, "#top")}
+            aria-label="AppCraft Technology, back to top"
+            className="group -mx-2 -my-1 flex min-w-0 items-center rounded-full px-2 py-1 outline-none transition-all duration-300 hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <span className="transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transform-none">
+              <LogoLockup />
+            </span>
+          </a>
 
-        <div className="hidden items-center gap-6 lg:flex xl:gap-8">
-          {links.map((l) => (
+          <div className="hidden items-center gap-6 lg:flex xl:gap-8">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={(e) => scrollToHash(e, l.href)}
+                aria-current={active === l.href.slice(1) ? "true" : undefined}
+                className={`relative rounded-full px-1 py-1 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                  active === l.href.slice(1) ? "text-ink" : "text-ink-muted hover:text-ink"
+                }`}
+              >
+                {l.label}
+                {active === l.href.slice(1) ? (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-accent-blue-bright"
+                  />
+                ) : null}
+              </a>
+            ))}
+          </div>
+
+          <div className="hidden items-center gap-3 lg:flex">
             <a
-              key={l.href}
-              href={l.href}
-              onClick={(e) => scrollToHash(e, l.href)}
-              aria-current={active === l.href.slice(1) ? "true" : undefined}
-              className={`relative rounded-full px-1 py-1 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                active === l.href.slice(1) ? "text-ink" : "text-ink-muted hover:text-ink"
-              }`}
+              href="#contact"
+              onClick={(e) => {
+                trackEvent("cta_click", { cta: "Start Your Project", location: "nav_desktop" });
+                scrollToHash(e, "#contact");
+              }}
+              className="inline-flex items-center whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground outline-none transition-all duration-200 hover:scale-[1.02] hover:shadow-[var(--shadow-glow)] focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
-              {l.label}
-              {active === l.href.slice(1) ? (
-                <motion.span
-                  layoutId="nav-active"
-                  className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-accent-blue-bright"
-                />
-              ) : null}
+              Start Your Project
             </a>
-          ))}
-        </div>
+          </div>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <a
-            href="#contact"
-            onClick={(e) => {
-              trackEvent("cta_click", { cta: "Start Your Project", location: "nav_desktop" });
-              scrollToHash(e, "#contact");
-            }}
-            className="inline-flex items-center whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground outline-none transition-all duration-200 hover:scale-[1.02] hover:shadow-[var(--shadow-glow)] focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
-          >
-            Start Your Project
-          </a>
-        </div>
-
-        <div className="flex items-center gap-2 justify-self-end sm:gap-3 lg:hidden">
-          <a
-            href="#contact"
-            onClick={(e) => {
-              trackEvent("cta_click", { cta: "Start Your Project", location: "nav_mobile" });
-              scrollToHash(e, "#contact");
-            }}
-            className="hidden items-center whitespace-nowrap rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground outline-none transition-transform duration-200 focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97] sm:inline-flex"
-          >
-            Start Your Project
-          </a>
-          <button
-            ref={menuButtonRef}
-            type="button"
-            aria-label="Open menu"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            onClick={() => setOpen(true)}
-            className="inline-flex size-11 items-center justify-center rounded-full border border-line text-ink outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:bg-foreground/10"
-          >
-            <Menu className="size-5" />
-          </button>
-        </div>
-      </nav>
+          <div className="flex items-center gap-2 justify-self-end sm:gap-3 lg:hidden">
+            <a
+              href="#contact"
+              onClick={(e) => {
+                trackEvent("cta_click", { cta: "Start Your Project", location: "nav_mobile" });
+                scrollToHash(e, "#contact");
+              }}
+              className="hidden items-center whitespace-nowrap rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground outline-none transition-transform duration-200 focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97] sm:inline-flex"
+            >
+              Start Your Project
+            </a>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              aria-label="Open menu"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen(true)}
+              className="inline-flex size-11 items-center justify-center rounded-full border border-line text-ink outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:bg-foreground/10"
+            >
+              <Menu className="size-5" />
+            </button>
+          </div>
+        </nav>
+      </header>
 
       <AnimatePresence>
         {open ? (
           <motion.div
             id="mobile-menu"
+            ref={menuPanelRef}
             role="dialog"
             aria-modal="true"
             aria-label="Site menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-background/98 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-50 overflow-y-auto bg-background lg:hidden"
           >
             <div className="flex items-center justify-between px-5 py-4 sm:px-8">
               <div className="flex min-w-0 items-center gap-2.5">
@@ -281,6 +288,6 @@ export function SiteNav() {
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

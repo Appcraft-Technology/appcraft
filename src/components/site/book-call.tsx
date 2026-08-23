@@ -130,7 +130,7 @@ export function BookCall() {
   return (
     <div
       ref={containerRef}
-      style={{ width: "100%", height: "100%", minHeight: 560, overflow: "auto" }}
+      style={{ width: "100%", height: 700, maxHeight: "80vh", overflowY: "auto" }}
       className="rounded-2xl"
       aria-label="Book a call scheduling widget"
     />

@@ -24,7 +24,7 @@ function PlatformChip({ platform }: { platform: Platform }) {
 
 function CardFooter({ card }: { card: ShippedCard }) {
   return (
-    <>
+    <div className="mt-auto">
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
         {card.platforms.map((p) => (
           <PlatformChip key={p} platform={p} />
@@ -41,7 +41,7 @@ function CardFooter({ card }: { card: ShippedCard }) {
       >
         View live <ArrowUpRight className="size-3.5" />
       </a>
-    </>
+    </div>
   );
 }
 
@@ -94,7 +94,7 @@ function ImageCard({ card, category }: { card: ShippedCard; category: string }) 
 
   if (isPhone) {
     return (
-      <article className="group flex w-[130px] shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-line-strong sm:w-[220px] lg:w-[250px]">
+      <article className="group flex h-full w-[170px] shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-line-strong sm:w-[220px] lg:w-[250px]">
         <PhoneScreenshot card={card} />
         <div className="flex flex-1 flex-col p-4">
           <h4 className="font-display text-base font-semibold text-ink">{card.name}</h4>
@@ -106,7 +106,7 @@ function ImageCard({ card, category }: { card: ShippedCard; category: string }) 
   }
 
   return (
-    <article className="group flex w-[340px] shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-line-strong sm:w-[400px] lg:w-[460px]">
+    <article className="group flex h-full w-[340px] shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-line-strong sm:w-[400px] lg:w-[460px]">
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-2">
         <img
           src={card.image}
@@ -131,8 +131,8 @@ function LabelCard({ card, category }: { card: ShippedCard; category: string }) 
     <article
       className={`group relative flex shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-surface p-4 transition-all duration-300 hover:-translate-y-1 hover:border-line-strong ${
         isPhone
-          ? "w-[130px] sm:w-[220px] lg:w-[250px]"
-          : "w-[340px] sm:w-[400px] lg:w-[460px]"
+          ? "w-[170px] sm:w-[220px] lg:w-[250px]"
+          : "h-full w-[340px] sm:w-[400px] lg:w-[460px]"
       } ${isPhone ? "aspect-[9/19.5]" : ""}`}
     >
       <div
