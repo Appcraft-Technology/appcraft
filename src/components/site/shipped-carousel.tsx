@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "./motion-primitives";
 import { shippedCategories, type ShippedCard } from "./shipped-data.generated";
@@ -169,63 +169,99 @@ function CategoryRow({
   cards: ShippedCard[];
   reverse?: boolean;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number | null>(null);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
+  const lastUserInteraction = useRef(0);
+
+  // Repeat cards enough times to ensure seamless infinite scrolling
+  const repeatedCards = [...cards, ...cards, ...cards, ...cards];
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (!trackRef.current) return;
+    if (!containerRef.current) return;
     isDraggingRef.current = true;
-    startXRef.current = e.pageX - trackRef.current.offsetLeft;
-    scrollLeftRef.current = trackRef.current.scrollLeft;
-    trackRef.current.style.cursor = "grabbing";
-    trackRef.current.style.userSelect = "none";
+    startXRef.current = e.pageX;
+    scrollLeftRef.current = containerRef.current.scrollLeft;
+    lastUserInteraction.current = Date.now();
+    containerRef.current.style.cursor = "grabbing";
   };
 
   const handleMouseUp = () => {
-    if (!trackRef.current) return;
     isDraggingRef.current = false;
-    trackRef.current.style.cursor = "grab";
-    trackRef.current.style.userSelect = "";
+    if (containerRef.current) {
+      containerRef.current.style.cursor = "grab";
+    }
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDraggingRef.current || !trackRef.current) return;
+    if (!isDraggingRef.current || !containerRef.current) return;
     e.preventDefault();
-    const x = e.pageX - trackRef.current.offsetLeft;
+    const x = e.pageX;
     const walk = (x - startXRef.current) * 2;
-    trackRef.current.scrollLeft = scrollLeftRef.current - walk;
+    containerRef.current.scrollLeft = scrollLeftRef.current - walk;
+    lastUserInteraction.current = Date.now();
   };
 
   const handleMouseLeave = () => {
-    if (!trackRef.current) return;
     isDraggingRef.current = false;
-    trackRef.current.style.cursor = "grab";
-    trackRef.current.style.userSelect = "";
+    if (containerRef.current) {
+      containerRef.current.style.cursor = "grab";
+    }
   };
 
-  // Estimate the widest a card can realistically render (widest card width + gap),
-  // then repeat the source list enough times so a single lap comfortably exceeds
-  // even an ultra-wide viewport. That repeated list is then duplicated once more
-  // so the CSS `-50%` translate loop always has a matching second half to hand
-  // off to - this keeps the scroll seamless no matter how few cards a row has
-  // or how wide the screen is (e.g. a 3-card row on a 4K monitor).
-  const MAX_CARD_WIDTH_PX = 480;
-  const SAFE_LAP_WIDTH_PX = 4200;
-  const singleLapWidth = cards.length * MAX_CARD_WIDTH_PX;
-  const repeatCount = Math.max(2, Math.ceil(SAFE_LAP_WIDTH_PX / singleLapWidth));
-  const lap = Array.from({ length: repeatCount }, () => cards).flat();
-  const doubled = [...lap, ...lap];
+  const handleScroll = () => {
+    lastUserInteraction.current = Date.now();
+  };
 
-  // Fixed CSS animation durations assume a specific track length, so a longer
-  // repeated track (rows with few cards) would otherwise scroll faster than a
-  // row with many cards. Scale duration by lap width so every row moves at the
-  // same, slow, comfortable px/sec speed regardless of how many times its card
-  // list had to repeat for loop-safety.
-  const PX_PER_SECOND = 40;
-  const lapWidth = repeatCount * singleLapWidth;
-  const durationSeconds = Math.max(20, Math.round(lapWidth / PX_PER_SECOND));
+  // Auto-scroll and infinite loop logic
+  useEffect(() => {
+    const container = containerRef.current;
+    const track = trackRef.current;
+    if (!container || !track) return;
+
+    // Calculate the width of one set of cards
+    const singleSetWidth = track.scrollWidth / 4;
+
+    // Set initial scroll position to the middle set
+    container.scrollLeft = singleSetWidth;
+
+    const autoScroll = () => {
+      if (!container || isDraggingRef.current) return;
+
+      const timeSinceInteraction = Date.now() - lastUserInteraction.current;
+      const INTERACTION_COOLDOWN = 2000; // 2 seconds after user stops interacting
+
+      // Only auto-scroll if user hasn't interacted recently
+      if (timeSinceInteraction > INTERACTION_COOLDOWN) {
+        const scrollSpeed = reverse ? -0.5 : 0.5;
+        container.scrollLeft += scrollSpeed;
+      }
+
+      // Check if we need to reset position for infinite loop
+      const scrollPos = container.scrollLeft;
+      const maxScroll = singleSetWidth * 2; // Two sets forward
+      const minScroll = singleSetWidth * 0.5; // Half set back
+
+      if (scrollPos >= maxScroll) {
+        container.scrollLeft = singleSetWidth;
+      } else if (scrollPos <= minScroll) {
+        container.scrollLeft = singleSetWidth + (singleSetWidth - scrollPos);
+      }
+
+      animationRef.current = requestAnimationFrame(autoScroll);
+    };
+
+    animationRef.current = requestAnimationFrame(autoScroll);
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [reverse]);
 
   return (
     <div>
@@ -237,19 +273,20 @@ function CategoryRow({
       </div>
 
       <div 
-        ref={trackRef}
-        className="marquee-row group relative mt-5 overflow-x-auto overflow-y-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
+        ref={containerRef}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onScroll={handleScroll}
+        className="relative mt-5 overflow-x-scroll overflow-y-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
       >
-        <div
-          className={`${reverse ? "marquee-track-reverse" : "marquee-track"} gap-4 group-hover:[animation-play-state:paused]`}
-          style={{ animationDuration: `${durationSeconds}s` }}
+        <div 
+          ref={trackRef}
+          className="flex gap-4"
         >
-          {doubled.map((card, i) => (
-            <div key={card.name + i} className="mr-4 last:mr-0">
+          {repeatedCards.map((card, i) => (
+            <div key={card.name + i} className="shrink-0">
               <Card card={card} category={category} />
             </div>
           ))}
