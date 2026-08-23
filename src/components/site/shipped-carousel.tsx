@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "./motion-primitives";
 import { shippedCategories, type ShippedCard } from "./shipped-data.generated";
@@ -168,6 +169,42 @@ function CategoryRow({
   cards: ShippedCard[];
   reverse?: boolean;
 }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!trackRef.current) return;
+    isDraggingRef.current = true;
+    startXRef.current = e.pageX - trackRef.current.offsetLeft;
+    scrollLeftRef.current = trackRef.current.scrollLeft;
+    trackRef.current.style.cursor = "grabbing";
+    trackRef.current.style.userSelect = "none";
+  };
+
+  const handleMouseUp = () => {
+    if (!trackRef.current) return;
+    isDraggingRef.current = false;
+    trackRef.current.style.cursor = "grab";
+    trackRef.current.style.userSelect = "";
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !trackRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - trackRef.current.offsetLeft;
+    const walk = (x - startXRef.current) * 2;
+    trackRef.current.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  const handleMouseLeave = () => {
+    if (!trackRef.current) return;
+    isDraggingRef.current = false;
+    trackRef.current.style.cursor = "grab";
+    trackRef.current.style.userSelect = "";
+  };
+
   // Estimate the widest a card can realistically render (widest card width + gap),
   // then repeat the source list enough times so a single lap comfortably exceeds
   // even an ultra-wide viewport. That repeated list is then duplicated once more
@@ -199,7 +236,14 @@ function CategoryRow({
         <h3 className="font-display text-lg font-bold text-ink sm:text-xl">{title}</h3>
       </div>
 
-      <div className="marquee-row group relative mt-5 overflow-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
+      <div 
+        ref={trackRef}
+        className="marquee-row group relative mt-5 overflow-x-auto overflow-y-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
         <div
           className={`${reverse ? "marquee-track-reverse" : "marquee-track"} gap-4 group-hover:[animation-play-state:paused]`}
           style={{ animationDuration: `${durationSeconds}s` }}
