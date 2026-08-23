@@ -315,7 +315,7 @@ export function Contact() {
               New Delhi, India - serving USA, Europe &amp; APAC
             </p>
             <a
-              href="https://www.linkedin.com/in/dipakmishra/"
+              href="https://www.linkedin.com/company/appcraft-technology"
               target="_blank"
               rel="noreferrer noopener"
               aria-label="AppCraft on LinkedIn"
