@@ -38,7 +38,7 @@ export function Hero() {
           className="eyebrow"
           data-testid="hero-eyebrow"
         >
-          <span className="inline">Product&nbsp;Engineering&nbsp;Studio</span>
+          <span className="inline">Product&nbsp;Engineering&nbsp;Company</span>
           <span className="mx-2 hidden text-ink-muted sm:inline">·</span>
           <span className="block sm:inline">Est.&nbsp;2013</span>
         </motion.p>
@@ -94,8 +94,8 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.52 }}
           className="mt-4 max-w-2xl text-sm leading-relaxed text-ink-dim sm:text-base"
         >
-          AppCraft Studio is the product engineering division of AppCraft Technology, focused
-          exclusively on shipping production apps for international clients.
+          AppCraft Technology is a product engineering company, focused exclusively on
+          shipping production apps for international clients.
         </motion.p>
 
         <motion.div
@@ -140,10 +140,7 @@ export function Hero() {
           ))}
         </motion.dl>
 
-        <motion.a
-          href="https://appcraft.in"
-          target="_blank"
-          rel="noreferrer noopener"
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.9 }}
@@ -153,7 +150,7 @@ export function Hero() {
           <span className="text-ink-muted/80 sm:text-ink-muted">
             13 years. 50+ products. Now focused exclusively on product engineering.
           </span>
-        </motion.a>
+        </motion.div>
       </div>
     </section>
   );

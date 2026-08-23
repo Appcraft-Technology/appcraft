@@ -3,7 +3,7 @@
 import { Linkedin } from "lucide-react";
 import { scrollToHash } from "@/lib/scroll-to";
 
-const logoUrl = "/assets/appcraft-logo.png";
+const logoUrl = "/assets/appcraft-lockup-transparent.png";
 
 const links = [
   { label: "Work", href: "#work" },
@@ -27,16 +27,8 @@ export function Footer() {
           />
         </a>
         <p className="max-w-2xl text-sm text-ink-dim">
-          AppCraft Studio operates as the product engineering division of{" "}
-          <a
-            href="https://appcraft.in"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="text-accent-blue hover:underline"
-          >
-            AppCraft Technology
-          </a>
-          , a digital solutions company based in New Delhi since 2013.
+          AppCraft Technology is a digital solutions company based in New Delhi since 2013,
+          focused on product engineering.
         </p>
       </div>
 
@@ -61,17 +53,35 @@ export function Footer() {
           ))}
         </nav>
         <p className="order-2 max-w-md text-balance lg:order-1 lg:max-w-none">
-          © 2026 AppCraft Studio. A product engineering division of AppCraft Technology.
+          © 2026 AppCraft Technology. All rights reserved.
         </p>
-        <a
-          href="https://www.linkedin.com/in/dipakmishra/"
-          target="_blank"
-          rel="noreferrer noopener"
-          aria-label="AppCraft Studio on LinkedIn"
-          className="order-3 inline-flex size-11 items-center justify-center rounded-full border border-line outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:bg-foreground/10"
-        >
-          <Linkedin className="size-5" />
-        </a>
+        <div className="order-3 flex items-center gap-3">
+          <a
+            href="https://www.linkedin.com/company/appcraft-technology"
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label="AppCraft Technology on LinkedIn"
+            className="inline-flex size-11 items-center justify-center rounded-full border border-line outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:bg-foreground/10"
+          >
+            <Linkedin className="size-5" />
+          </a>
+          <a
+            href="https://x.com/appcraft_tweets"
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label="AppCraft Technology on X"
+            className="inline-flex size-11 items-center justify-center rounded-full border border-line outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:bg-foreground/10"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="size-5"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+        </div>
       </div>
     </footer>
   );

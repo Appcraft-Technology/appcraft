@@ -83,8 +83,8 @@ function ensureCalGlobal(): CalGlobal {
  * Reference: https://cal.com/docs/developing/guides/embeds/customize-embed-css-variables
  */
 const APPCRAFT_CAL_THEME = {
-  "cal-brand": "oklch(0.488 0.217 264.4)", // --accent-blue
-  "cal-brand-emphasis": "oklch(0.445 0.209 264.1)", // --accent-blue-bright
+  "cal-brand": "oklch(0.615 0.175 250.3)", // --accent-blue (#0287E8)
+  "cal-brand-emphasis": "oklch(0.671 0.16 244.5)", // --accent-blue-bright (#1C9DF0)
   "cal-brand-text": "oklch(0.99 0 0)",
   "cal-text": "oklch(0.21 0.03 264)", // --ink
   "cal-text-emphasis": "oklch(0.21 0.03 264)", // --ink

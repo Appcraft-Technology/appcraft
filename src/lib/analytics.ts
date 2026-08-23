@@ -20,11 +20,11 @@ declare global {
   }
 }
 
-// Default measurement ID for AppCraft Studio. NEXT_PUBLIC_GA_MEASUREMENT_ID
+// Default measurement ID for AppCraft Technology. NEXT_PUBLIC_GA_MEASUREMENT_ID
 // overrides this at build time; set it to "" to disable.
 const DEFAULT_GA_MEASUREMENT_ID = "G-2B0PJHE46E";
 
-// Default Microsoft Clarity project ID for AppCraft Studio.
+// Default Microsoft Clarity project ID for AppCraft Technology.
 // NEXT_PUBLIC_CLARITY_PROJECT_ID overrides this at build time; set it to "" to disable.
 const DEFAULT_CLARITY_PROJECT_ID = "y6jhiz9xg4";
 

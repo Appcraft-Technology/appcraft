@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://appcraft.in"),
-  authors: [{ name: "AppCraft Studio" }],
+  authors: [{ name: "AppCraft Technology" }],
   other: {
     "color-scheme": "light",
   },

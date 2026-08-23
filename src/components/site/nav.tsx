@@ -7,9 +7,7 @@ import { trackEvent } from "@/lib/analytics";
 import { scrollToHash } from "@/lib/scroll-to";
 import { useActiveSection, useSectionQueryDeepLink } from "@/lib/use-active-section";
 
-const iconLight40 = "/assets/appcraft-icon-light-40.png";
-const iconLight80 = "/assets/appcraft-icon-light-80.png";
-const iconLight120 = "/assets/appcraft-icon-light-120.png";
+const iconSrc = "/assets/appcraft-icon-transparent.png";
 
 const sectionIds = ["work", "process", "tech", "contact"];
 
@@ -29,8 +27,7 @@ export function Logo({ size = 36 }: { size?: number }) {
       height={size}
       decoding="async"
       style={{ width: size, height: size }}
-      src={iconLight40}
-      srcSet={`${iconLight40} 1x, ${iconLight80} 2x, ${iconLight120} 3x`}
+      src={iconSrc}
       className="object-contain"
     />
   );
@@ -38,15 +35,25 @@ export function Logo({ size = 36 }: { size?: number }) {
 
 export function Wordmark() {
   return (
-    <span className="flex items-baseline gap-1 truncate font-display">
-      <span className="text-xl font-bold tracking-tight text-ink">AppCraft</span>
-      <span className="text-sm font-normal text-accent-blue-bright">Studio</span>
+    <span className="flex flex-col font-display" style={{ gap: 0, paddingBottom: 2 }}>
+      <span
+        className="text-xl font-bold tracking-tight text-ink"
+        style={{ lineHeight: 1.15 }}
+      >
+        AppCraft
+      </span>
+      <span
+        className="text-sm font-medium text-accent-blue"
+        style={{ lineHeight: 1.3, marginTop: -2 }}
+      >
+        Technology
+      </span>
     </span>
   );
 }
 
 /** Logo lockup with a subtle draw-in reveal on mount. */
-export function LogoLockup({ size = 36 }: { size?: number }) {
+export function LogoLockup({ size = 42 }: { size?: number }) {
   return (
     <motion.span
       initial="hidden"
@@ -131,7 +138,7 @@ export function SiteNav() {
         <a
           href="#top"
           onClick={(e) => scrollToHash(e, "#top")}
-          aria-label="AppCraft Studio, back to top"
+          aria-label="AppCraft Technology, back to top"
           className="group -mx-2 -my-1 flex min-w-0 items-center rounded-full px-2 py-1 outline-none transition-all duration-300 hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <span className="transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transform-none">

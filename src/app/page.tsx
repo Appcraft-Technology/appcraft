@@ -9,9 +9,9 @@ import { Testimonials } from "@/components/site/testimonials";
 import { Contact } from "@/components/site/contact";
 import { Footer } from "@/components/site/footer";
 
-const title = "AppCraft Studio | Product Engineering Division | 13 Years";
+const title = "AppCraft Technology | Product Engineering | 13 Years";
 const description =
-  "AppCraft Studio ships production iOS, Android, and web apps. The product engineering division of AppCraft Technology. 13 years, 50+ products, live on the App Store.";
+  "AppCraft Technology ships production iOS, Android, and web apps. 13 years, 50+ products, live on the App Store.";
 
 export const metadata: Metadata = {
   title,
