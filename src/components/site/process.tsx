@@ -38,7 +38,7 @@ export function Process() {
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section id="process" className="scroll-mt-24 py-28">
+    <section id="process" className="scroll-mt-0 pt-4 pb-28">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           eyebrow="Our Process"

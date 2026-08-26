@@ -146,11 +146,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 4.5rem;
   }
 
   :target {
-    scroll-margin-top: 6rem;
+    scroll-margin-top: 4.5rem;
   }
 
   button:not(:disabled),

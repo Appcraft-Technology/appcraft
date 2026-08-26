@@ -118,7 +118,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="scroll-mt-24 py-28"
+      className="scroll-mt-0 pt-4 pb-28"
       style={{ background: "var(--gradient-cta)" }}
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
