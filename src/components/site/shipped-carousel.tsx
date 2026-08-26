@@ -217,7 +217,7 @@ function CategoryRow({
 
 export function ShippedCarousel() {
   return (
-    <section id="work" className="scroll-mt-24 pt-16 pb-28 sm:pt-20 lg:pt-24">
+    <section id="work" className="scroll-mt-0 pt-4 pb-28 sm:pt-6 lg:pt-8">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="eyebrow flex items-center gap-2">

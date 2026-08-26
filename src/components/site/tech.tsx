@@ -49,7 +49,7 @@ function Row({ items, reverse }: { items: string[]; reverse?: boolean }) {
 
 export function Tech() {
   return (
-    <section id="tech" className="scroll-mt-24 border-y border-line bg-surface-2 py-28">
+    <section id="tech" className="scroll-mt-0 border-y border-line bg-surface-2 pt-4 pb-28">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading eyebrow="Tech Stack" title="What We Build With" align="center" />
       </div>
