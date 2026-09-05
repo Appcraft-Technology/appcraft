@@ -35,7 +35,7 @@ export function Hero() {
           className="eyebrow"
           data-testid="hero-eyebrow"
         >
-          <span className="inline">Product&nbsp;Engineering&nbsp;Company</span>
+          <span className="inline">Product&nbsp;Engineering&nbsp;&amp;&nbsp;AI&nbsp;Automation</span>
           <span className="mx-2 hidden text-ink-muted sm:inline">·</span>
           <span className="block sm:inline">Est.&nbsp;2013</span>
         </motion.p>
@@ -81,8 +81,8 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.45 }}
           className="mt-6 max-w-3xl text-base leading-relaxed text-ink-muted sm:mt-8 sm:text-lg"
         >
-          For 13 years, we&apos;ve built iOS, Android, and web products for clients across three
-          continents. Live on the App Store. Live on the Play Store. Not pitch decks.
+          AppCraft Technology designs, builds, and launches iOS, Android, web, CRM, ERP, AI
+          automation, and agentic AI solutions for international businesses.
         </motion.p>
 
         <motion.p
@@ -91,8 +91,7 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.52 }}
           className="mt-4 max-w-2xl text-sm leading-relaxed text-ink-dim sm:text-base"
         >
-          AppCraft Technology is a product engineering company, focused exclusively on
-          shipping production apps for international clients.
+          13 years. 50+ products shipped. 9 live apps on the App Store and Google Play.
         </motion.p>
 
         <motion.div
@@ -140,7 +139,7 @@ export function Hero() {
         >
           <span className="font-medium text-ink">AppCraft Technology</span>
           <span className="text-ink-muted/80 sm:text-ink-muted">
-            13 years. 50+ products. Now focused exclusively on product engineering.
+            Product engineering for CRM, ERP, AI automation, and agentic AI.
           </span>
         </motion.div>
       </div>
