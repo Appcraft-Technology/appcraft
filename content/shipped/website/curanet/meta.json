@@ -1,0 +1,6 @@
+{
+  "name": "CuraNet",
+  "desc": "Secure health records, appointments & consent platform",
+  "platforms": ["Web"],
+  "url": "https://curanet.in/"
+}

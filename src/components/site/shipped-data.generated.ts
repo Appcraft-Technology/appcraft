@@ -91,6 +91,15 @@ export const shippedCategories: ShippedCategory[] = [
     "title": "Website / Web Development",
     "cards": [
       {
+        "name": "CuraNet",
+        "desc": "Secure health records, appointments & consent platform",
+        "platforms": [
+          "Web"
+        ],
+        "url": "https://curanet.in/",
+        "image": "/assets/shipped/website/curanet.png"
+      },
+      {
         "name": "Kuriersoft",
         "desc": "Courier & logistics software suite",
         "platforms": [
@@ -109,6 +118,15 @@ export const shippedCategories: ShippedCategory[] = [
         "image": "/assets/shipped/website/kurierwalla.png"
       },
       {
+        "name": "PGKhata",
+        "desc": "PG billing, rent collection & tenant management platform",
+        "platforms": [
+          "Web"
+        ],
+        "url": "https://pgkhata.com/",
+        "image": "/assets/shipped/website/pgkhata.png"
+      },
+      {
         "name": "RGRT Group",
         "desc": "Corporate site for a multi-vertical business group",
         "platforms": [
@@ -116,6 +134,24 @@ export const shippedCategories: ShippedCategory[] = [
         ],
         "url": "https://rgrtgroup.com/",
         "image": "/assets/shipped/website/rgrt-group.png"
+      },
+      {
+        "name": "Shotup",
+        "desc": "Premium visual studio & award-winning photography portfolio",
+        "platforms": [
+          "Web"
+        ],
+        "url": "https://shotup.in/",
+        "image": "/assets/shipped/website/shotup.png"
+      },
+      {
+        "name": "The Dark Store",
+        "desc": "Black-first fashion & streetwear e-commerce store",
+        "platforms": [
+          "Web"
+        ],
+        "url": "https://thedarkstore.in/",
+        "image": "/assets/shipped/website/the-dark-store.png"
       }
     ]
   }
