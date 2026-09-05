@@ -5,7 +5,7 @@ import { ArrowUpRight, ExternalLink, X } from "lucide-react";
 import { shippedCategories, type ShippedCard } from "./shipped-data.generated";
 import { workDetails } from "./work-details";
 
-type WorkItem = ShippedCard & {
+export type WorkItem = ShippedCard & {
   category: string;
 };
 
@@ -36,7 +36,7 @@ function LiveLink({ item }: { item: WorkItem }) {
   );
 }
 
-function WorkDialog({ item }: { item: WorkItem }) {
+export function WorkDialog({ item }: { item: WorkItem }) {
   const detail = workDetails[item.name] ?? {
     business: item.desc,
     audience: "Visitors evaluating the live product.",
@@ -189,6 +189,14 @@ export function WorkArchive() {
           {workItems.map((item) => (
             <WorkCard key={`${item.category}-${item.name}`} item={item} />
           ))}
+        </div>
+
+        <div className="mt-20 border-t border-line pt-10 text-center sm:mt-24 sm:pt-12">
+          <h2 className="text-2xl sm:text-3xl">The work you see is only part of the story.</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-ink-muted sm:text-lg">
+            This archive features projects we can share publicly. Many products we have shipped
+            remain private under client confidentiality and NDA commitments.
+          </p>
         </div>
       </div>
     </section>
