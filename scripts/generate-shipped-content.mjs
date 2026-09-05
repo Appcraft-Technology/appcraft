@@ -48,7 +48,7 @@ const COVER_EXTENSIONS = [".webp", ".png", ".jpg", ".jpeg"];
 /** Maps a category folder slug to its display title. Add new categories here. */
 const CATEGORY_TITLES = {
   "mobile-ios": "Mobile & iOS",
-  website: "Website / Web Development",
+  website: "Web Development",
   portfolios: "Portfolios",
 };
 
