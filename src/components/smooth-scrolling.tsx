@@ -12,8 +12,15 @@ export default function SmoothScrolling({ children }: { children: React.ReactNod
     function update(data: { timestamp: number }) {
       lenisRef.current?.lenis?.raf(data.timestamp);
     }
+    function scrollToTop() {
+      lenisRef.current?.lenis?.scrollTo(0, { immediate: true, force: true });
+    }
     frame.update(update, true);
-    return () => cancelFrame(update);
+    window.addEventListener("appcraft:scroll-top", scrollToTop);
+    return () => {
+      cancelFrame(update);
+      window.removeEventListener("appcraft:scroll-top", scrollToTop);
+    };
   }, []);
 
   return (

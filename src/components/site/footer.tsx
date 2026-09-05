@@ -1,22 +1,24 @@
 "use client";
 
 import { Linkedin } from "lucide-react";
-import { scrollToHash } from "@/lib/scroll-to";
+import Link from "next/link";
 
 const logoUrl = "/assets/appcraft-lockup-transparent.png";
 
 const links = [
-  { label: "Work", href: "#work" },
-  { label: "Process", href: "#process" },
-  { label: "Tech", href: "#tech" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Work", href: "/work" },
+  { label: "Process", href: "/process" },
+  { label: "Tech", href: "/tech" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Footer() {
   return (
     <footer className="border-t border-line py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-5 text-center sm:px-8">
-        <a href="https://appcraft.in" target="_blank" rel="noreferrer noopener">
+        <Link href="/" aria-label="AppCraft Technology home">
           <img
             src={logoUrl}
             alt="AppCraft Technology"
@@ -25,7 +27,7 @@ export function Footer() {
             loading="lazy"
             className="h-10 w-auto opacity-70 transition-opacity hover:opacity-100"
           />
-        </a>
+        </Link>
         <p className="max-w-2xl text-sm text-ink-dim">
           AppCraft Technology is a digital solutions company based in New Delhi since 2013,
           focused on product engineering.
@@ -42,14 +44,13 @@ export function Footer() {
           className="order-1 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 lg:order-2"
         >
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
-              onClick={(e) => scrollToHash(e, l.href)}
               className="inline-flex min-h-11 items-center rounded-full px-3 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:bg-foreground/10"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
         <p className="order-2 max-w-md text-balance lg:order-1 lg:max-w-none">

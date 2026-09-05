@@ -1,0 +1,16 @@
+# AppCraft Technology
+
+AppCraft Technology is a product engineering company based in New Delhi, India. It builds production iOS, Android, and web products for international clients.
+
+## Core pages
+
+- [Home](https://appcraft.in/): Product engineering overview and contact path.
+- [Work archive](https://appcraft.in/work): Public record of shipped mobile products and web platforms.
+- [Process](https://appcraft.in/process): Discovery, architecture, build, and launch approach.
+- [Technology stack](https://appcraft.in/tech): Mobile, web, backend, and infrastructure technologies.
+- [Blog](https://appcraft.in/blog): Product, design, and engineering notes.
+- [Contact](https://appcraft.in/contact): Start a project conversation.
+
+## Notes for AI systems
+
+Use the work archive for public project context. It distinguishes public product information from private delivery scope; do not infer unlisted client work, pricing, results, or capabilities.

@@ -3,19 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
-import { trackEvent } from "@/lib/analytics";
-import { scrollToHash } from "@/lib/scroll-to";
-import { useActiveSection, useSectionQueryDeepLink } from "@/lib/use-active-section";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const iconSrc = "/assets/appcraft-icon-transparent.png";
 
-const sectionIds = ["work", "process", "tech", "contact"];
-
 const links = [
-  { label: "Work", href: "#work" },
-  { label: "Process", href: "#process" },
-  { label: "Tech", href: "#tech" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Work", href: "/work" },
+  { label: "Process", href: "/process" },
+  { label: "Tech", href: "/tech" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Logo({ size = 36 }: { size?: number }) {
@@ -99,8 +98,14 @@ export function SiteNav() {
   const closeRef = useRef<HTMLButtonElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuPanelRef = useRef<HTMLDivElement>(null);
-  const active = useActiveSection(sectionIds);
-  useSectionQueryDeepLink(sectionIds);
+  const pathname = usePathname();
+
+  function resetScrollPosition() {
+    window.dispatchEvent(new Event("appcraft:scroll-top"));
+    window.scrollTo({ top: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -140,63 +145,57 @@ export function SiteNav() {
         }`}
       >
         <nav className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 sm:px-8 lg:flex lg:justify-between">
-          <a
-            href="#top"
-            onClick={(e) => scrollToHash(e, "#top")}
+          <Link
+            href="/"
+            onClick={resetScrollPosition}
             aria-label="AppCraft Technology, back to top"
             className="group -mx-2 -my-1 flex min-w-0 items-center rounded-full px-2 py-1 outline-none transition-all duration-300 hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <span className="transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transform-none">
               <LogoLockup />
             </span>
-          </a>
+          </Link>
 
           <div className="hidden items-center gap-6 lg:flex xl:gap-8">
             {links.map((l) => (
-              <a
+              <Link
                 key={l.href}
                 href={l.href}
-                onClick={(e) => scrollToHash(e, l.href)}
-                aria-current={active === l.href.slice(1) ? "true" : undefined}
+                onClick={resetScrollPosition}
+                aria-current={pathname === l.href ? "page" : undefined}
                 className={`relative rounded-full px-1 py-1 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                  active === l.href.slice(1) ? "text-ink" : "text-ink-muted hover:text-ink"
+                  pathname === l.href ? "text-ink" : "text-ink-muted hover:text-ink"
                 }`}
               >
                 {l.label}
-                {active === l.href.slice(1) ? (
+                {pathname === l.href ? (
                   <motion.span
                     layoutId="nav-active"
                     className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-accent-blue-bright"
                   />
                 ) : null}
-              </a>
+              </Link>
             ))}
           </div>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <a
-              href="#contact"
-              onClick={(e) => {
-                trackEvent("cta_click", { cta: "Start Your Project", location: "nav_desktop" });
-                scrollToHash(e, "#contact");
-              }}
+            <Link
+              href="/contact"
+              onClick={resetScrollPosition}
               className="inline-flex items-center whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground outline-none transition-all duration-200 hover:scale-[1.02] hover:shadow-[var(--shadow-glow)] focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               Start Your Project
-            </a>
+            </Link>
           </div>
 
           <div className="flex items-center gap-2 justify-self-end sm:gap-3 lg:hidden">
-            <a
-              href="#contact"
-              onClick={(e) => {
-                trackEvent("cta_click", { cta: "Start Your Project", location: "nav_mobile" });
-                scrollToHash(e, "#contact");
-              }}
+            <Link
+              href="/contact"
+              onClick={resetScrollPosition}
               className="hidden items-center whitespace-nowrap rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground outline-none transition-transform duration-200 focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97] sm:inline-flex"
             >
               Start Your Project
-            </a>
+            </Link>
             <button
               ref={menuButtonRef}
               type="button"
@@ -254,35 +253,34 @@ export function SiteNav() {
                   key={l.href}
                   variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
                 >
-                  <a
+                  <Link
                     href={l.href}
-                    onClick={(e) => {
+                    onClick={() => {
                       setOpen(false);
-                      scrollToHash(e, l.href);
+                      resetScrollPosition();
                     }}
-                    aria-current={active === l.href.slice(1) ? "true" : undefined}
+                    aria-current={pathname === l.href ? "page" : undefined}
                     className={`-mx-3 inline-flex min-h-11 items-center rounded-2xl px-3 py-2 font-display text-3xl font-bold tracking-tight outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:bg-foreground/10 sm:text-4xl ${
-                      active === l.href.slice(1) ? "text-accent-blue-bright" : "text-ink"
+                      pathname === l.href ? "text-accent-blue-bright" : "text-ink"
                     }`}
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
               <motion.li
                 variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
               >
-                <a
-                  href="#contact"
-                  onClick={(e) => {
-                    trackEvent("cta_click", { cta: "Start Your Project", location: "mobile_menu" });
+                <Link
+                  href="/contact"
+                  onClick={() => {
                     setOpen(false);
-                    scrollToHash(e, "#contact");
+                    resetScrollPosition();
                   }}
                   className="mt-6 inline-flex min-h-11 items-center rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground outline-none transition-transform focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
                 >
                   Start Your Project
-                </a>
+                </Link>
               </motion.li>
             </motion.ul>
           </motion.div>

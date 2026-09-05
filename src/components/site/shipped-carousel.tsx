@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Reveal } from "./motion-primitives";
 import { shippedCategories, type ShippedCard } from "./shipped-data.generated";
 import type { Platform } from "./work-data";
@@ -358,6 +358,17 @@ export function ShippedCarousel() {
             reverse={i % 2 === 1}
           />
         ))}
+      </div>
+
+      <div className="mx-auto mt-14 max-w-7xl px-5 sm:px-8">
+        <div className="flex justify-center border-t border-line pt-8">
+          <a
+            href="/work"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground outline-none transition-all duration-200 hover:scale-[1.02] hover:shadow-[var(--shadow-glow)] focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
+          >
+            View all work <ArrowRight className="size-4" aria-hidden />
+          </a>
+        </div>
       </div>
     </section>
   );

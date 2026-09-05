@@ -88,7 +88,7 @@ export const shippedCategories: ShippedCategory[] = [
   },
   {
     "slug": "website",
-    "title": "Website / Web Development",
+    "title": "Web Development",
     "cards": [
       {
         "name": "CuraNet",

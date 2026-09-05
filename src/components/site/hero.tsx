@@ -2,9 +2,8 @@
 
 import { motion } from "motion/react";
 import { CalendarDays, Package, Smartphone, Users } from "lucide-react";
-import { FlipText, useReducedMotion } from "./flip-text";
-import { trackEvent } from "@/lib/analytics";
-import { scrollToHash } from "@/lib/scroll-to";
+import { FlipText } from "./flip-text";
+import Link from "next/link";
 
 const trust = [
   { icon: CalendarDays, value: "13", label: "Years in Business" },
@@ -14,8 +13,6 @@ const trust = [
 ];
 
 export function Hero() {
-  const reducedMotion = useReducedMotion();
-
   return (
     <section
       id="top"
@@ -82,9 +79,9 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.45 }}
-          className="mt-6 max-w-2xl text-base leading-relaxed text-ink-muted sm:mt-8 sm:text-lg"
+          className="mt-6 max-w-3xl text-base leading-relaxed text-ink-muted sm:mt-8 sm:text-lg"
         >
-          For 13 years, we've built iOS, Android, and web products for clients across three
+          For 13 years, we&apos;ve built iOS, Android, and web products for clients across three
           continents. Live on the App Store. Live on the Play Store. Not pitch decks.
         </motion.p>
 
@@ -104,23 +101,18 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.6 }}
           className="mt-10 flex flex-wrap gap-4"
         >
-          <a
-            href="#work"
-            onClick={(e) => scrollToHash(e, "#work")}
+          <Link
+            href="/work"
             className="rounded-full bg-primary px-8 py-3.5 font-medium text-primary-foreground shadow-[var(--shadow-glow)] transition-transform duration-200 hover:scale-[1.02]"
           >
             View Our Work
-          </a>
-          <a
-            href="#contact"
-            onClick={(e) => {
-              trackEvent("cta_click", { cta: "Start Your Project", location: "hero" });
-              scrollToHash(e, "#contact");
-            }}
+          </Link>
+          <Link
+            href="/contact"
             className="rounded-full border border-line-strong px-8 py-3.5 font-medium text-ink transition-colors duration-200 hover:border-ink-muted hover:bg-surface/60"
           >
             Start Your Project
-          </a>
+          </Link>
         </motion.div>
 
         <motion.dl
