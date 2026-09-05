@@ -2,9 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { Reveal } from "./motion-primitives";
 import { shippedCategories, type ShippedCard } from "./shipped-data.generated";
 import type { Platform } from "./work-data";
+import { WorkDialog, type WorkItem } from "./work-archive";
 
 const platformClass: Record<Platform, string> = {
   iOS: "border-accent-blue/30 text-accent-blue",
@@ -30,17 +32,9 @@ function CardFooter({ card }: { card: ShippedCard }) {
           <PlatformChip key={p} platform={p} />
         ))}
       </div>
-      <a
-        href={card.url}
-        target={card.url === "#" ? undefined : "_blank"}
-        rel={card.url === "#" ? undefined : "noreferrer noopener"}
-        aria-disabled={card.url === "#"}
-        className={`mt-4 flex items-center gap-1 border-t border-line pt-3 text-sm text-ink-muted transition-colors ${
-          card.url === "#" ? "pointer-events-none opacity-60" : "hover:text-accent-blue"
-        }`}
-      >
-        View live <ArrowUpRight className="size-3.5" />
-      </a>
+      <span className="mt-4 flex items-center gap-1 border-t border-line pt-3 text-sm text-ink-muted transition-colors group-hover:text-accent-blue">
+        View project details <ArrowUpRight className="size-3.5" aria-hidden />
+      </span>
     </div>
   );
 }
@@ -149,10 +143,28 @@ function LabelCard({ card, category }: { card: ShippedCard; category: string }) 
 }
 
 function Card({ card, category }: { card: ShippedCard; category: string }) {
-  return card.image ? (
-    <ImageCard card={card} category={category} />
-  ) : (
-    <LabelCard card={card} category={category} />
+  const item: WorkItem = { ...card, category };
+
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <button
+          type="button"
+          aria-label={`View ${card.name} project details`}
+          className="group block h-full text-left outline-none focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        >
+          {card.image ? (
+            <ImageCard card={card} category={category} />
+          ) : (
+            <LabelCard card={card} category={category} />
+          )}
+        </button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-[55] bg-ink/35 backdrop-blur-sm data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0" />
+        <WorkDialog item={item} />
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 
@@ -322,7 +334,7 @@ function CategoryRow({
 
 export function ShippedCarousel() {
   return (
-    <section id="work" className="scroll-mt-0 pt-4 pb-28 sm:pt-6 lg:pt-8">
+    <section id="work" className="scroll-mt-0 pt-4 pb-8 sm:pt-6 sm:pb-12 lg:pt-8">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="eyebrow flex items-center gap-2">
@@ -361,7 +373,7 @@ export function ShippedCarousel() {
       </div>
 
       <div className="mx-auto mt-14 max-w-7xl px-5 sm:px-8">
-        <div className="flex justify-center border-t border-line pt-8">
+        <div className="flex justify-center border-t border-line pt-16">
           <a
             href="/work"
             className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground outline-none transition-all duration-200 hover:scale-[1.02] hover:shadow-[var(--shadow-glow)] focus-visible:ring-2 focus-visible:ring-accent-blue-bright focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"

@@ -232,6 +232,10 @@
   animation: marquee-left 44s linear infinite reverse;
 }
 
+@utility testimonial-marquee-track {
+  animation: marquee-left 58s linear infinite;
+}
+
 @keyframes marquee-left {
   from {
     transform: translateX(0);
@@ -271,6 +275,11 @@
 
   .marquee-row .marquee-track,
   .marquee-row .marquee-track-reverse {
+    animation: none;
+    width: max-content;
+  }
+
+  .marquee-row .testimonial-marquee-track {
     animation: none;
     width: max-content;
   }
