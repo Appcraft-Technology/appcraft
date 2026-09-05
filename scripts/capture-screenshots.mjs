@@ -28,6 +28,10 @@ const SITES = [
   { slug: "kurierwalla", url: "https://kurierwalla.com/" },
   { slug: "kuriersoft", url: "https://kuriersoft.in/" },
   { slug: "rgrt-group", url: "https://rgrtgroup.com/" },
+  { slug: "the-dark-store", url: "https://thedarkstore.in/" },
+  { slug: "pgkhata", url: "https://pgkhata.com/" },
+  { slug: "curanet", url: "https://curanet.in/" },
+  { slug: "shotup", url: "https://shotup.in/" },
 ];
 
 const VIEWPORT = { width: 1440, height: 900 };
@@ -68,11 +72,25 @@ async function captureSite(browser, { slug, url }) {
 }
 
 async function main() {
+  const requestedSlugs = new Set(process.argv.slice(2));
+  const sites = requestedSlugs.size > 0
+    ? SITES.filter(({ slug }) => requestedSlugs.has(slug))
+    : SITES;
+
+  const unknownSlugs = [...requestedSlugs].filter(
+    (slug) => !SITES.some((site) => site.slug === slug),
+  );
+  if (unknownSlugs.length > 0) {
+    console.error(`[capture-screenshots] Unknown site slug(s): ${unknownSlugs.join(", ")}`);
+    process.exitCode = 1;
+    return;
+  }
+
   const browser = await chromium.launch({ headless: true });
   let successCount = 0;
 
   try {
-    for (const site of SITES) {
+    for (const site of sites) {
       const ok = await captureSite(browser, site);
       if (ok) successCount += 1;
     }
@@ -81,7 +99,7 @@ async function main() {
   }
 
   console.log(
-    `[capture-screenshots] Done: ${successCount}/${SITES.length} screenshots captured. Run \`npm run content:sync\` to pick them up.`,
+    `[capture-screenshots] Done: ${successCount}/${sites.length} screenshots captured. Run \`npm run content:sync\` to pick them up.`,
   );
 
   if (successCount === 0) {
