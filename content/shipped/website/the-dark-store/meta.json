@@ -2,5 +2,6 @@
   "name": "The Dark Store",
   "desc": "Black-first fashion & streetwear e-commerce store",
   "platforms": ["Web"],
-  "url": "https://thedarkstore.in/"
+  "url": "https://thedarkstore.in/",
+  "hidden": true
 }

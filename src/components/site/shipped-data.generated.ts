@@ -143,15 +143,6 @@ export const shippedCategories: ShippedCategory[] = [
         ],
         "url": "https://shotup.in/",
         "image": "/assets/shipped/website/shotup.png"
-      },
-      {
-        "name": "The Dark Store",
-        "desc": "Black-first fashion & streetwear e-commerce store",
-        "platforms": [
-          "Web"
-        ],
-        "url": "https://thedarkstore.in/",
-        "image": "/assets/shipped/website/the-dark-store.png"
       }
     ]
   }

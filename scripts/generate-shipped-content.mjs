@@ -13,6 +13,8 @@
  *     "desc": string,                // required
  *     "platforms": ("iOS"|"Android"|"Web")[], // required, at least one
  *     "url": string,                 // required, "#" allowed for placeholders
+ *     "hidden": boolean,             // optional, default false. Hidden products
+ *                                     // remain in content but are not published.
  *     "framed": boolean              // optional, default false. Set true if the
  *                                     // cover image already includes its own device
  *                                     // frame/bezel (e.g. a phone mockup graphic) so
@@ -98,6 +100,9 @@ function validateMeta(meta, context) {
   if (meta.framed !== undefined && typeof meta.framed !== "boolean") {
     errors.push("`framed` must be a boolean if present");
   }
+  if (meta.hidden !== undefined && typeof meta.hidden !== "boolean") {
+    errors.push("`hidden` must be a boolean if present");
+  }
   if (errors.length > 0) {
     fail(`Invalid meta.json in ${context}:\n  - ${errors.join("\n  - ")}`);
     return false;
@@ -160,6 +165,8 @@ function main() {
         hadError = true;
         continue;
       }
+
+      if (meta.hidden) continue;
 
       let image;
       const cover = findCoverFile(productDir);
